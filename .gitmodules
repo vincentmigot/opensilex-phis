@@ -1,0 +1,16 @@
+[submodule "opensilex-core"]
+	path = opensilex-core
+	url = git@github.com:vincentmigot/opensilex-core.git
+	branch = master
+[submodule "phis-ws"]
+	path = phis-ws
+	url = git@github.com:vincentmigot/phis-ws.git
+	branch = opensilex-module
+[submodule "phis-webapp"]
+	path = phis-webapp
+	url = git@github.com:vincentmigot/phis-webapp.git
+	branch = master
+[submodule "opensilex-parent"]
+	path = opensilex-parent
+	url = git@github.com:vincentmigot/opensilex-parent.git
+	branch = master

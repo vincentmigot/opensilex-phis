@@ -1,0 +1,13 @@
+opensilex-core:
+    debug: true
+    host: localhost
+    port: 8080
+    basePath: /opensilex-ws-1.0.0-SNAPSHOT/rest
+    initPackages:
+        - phis2ws.service.json
+        - phis2ws.service.resources.request.filters
+    servicePackages:
+        - opensilex.core.services
+        - phis2ws.service.resources
+    
+    
