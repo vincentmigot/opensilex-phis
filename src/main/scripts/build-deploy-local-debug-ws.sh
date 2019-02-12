@@ -14,7 +14,7 @@
 
 ###############################################################################
 # Function to init main path
-function init() {
+function initPath() {
     # Check if the script is directly launch from it's folder, typically via Netbeans
     if [[ "$PWD" == *src/main/scripts ]]
     then
@@ -60,12 +60,14 @@ function loadConfig() {
         }
 
         requireVariable "INSTANCE_NAME"
+        requireVariable "INSTANCE_VERSION"
         requireVariable "MAVEN_BIN"
         requireVariable "JDK"
         requireVariable "TOMCAT_PATH"
 
         # Display loaded variables
         echo "Instance name           = " ${INSTANCE_NAME}
+        echo "Instance version        = " ${INSTANCE_VERSION}
         echo "Maven bin path          = " ${MAVEN_BIN}
         echo "JDK path                = " ${JDK}
         echo "Tomcat base path        = " ${TOMCAT_PATH}
@@ -83,7 +85,7 @@ function loadConfig() {
 # Function to run maven build
 function buildMaven() {
     # Run maven clean install
-    JAVA_HOME=$JDK $MAVEN_BIN install -Dopensilex.instance=$INSTANCE_NAME
+    JAVA_HOME=$JDK $MAVEN_BIN clean install -Dopensilex.instance=$INSTANCE_NAME -Drevision=$INSTANCE_VERSION
     # Exit if maven clean install failed
     if [[ "$?" -ne 0 ]] ; then
         echo 'Error while building project, exiting...'
@@ -95,7 +97,7 @@ function buildMaven() {
 # Function to copy builded war to Tomcat directory
 function copyWar() {
     echo "Copy war file from project target folder to tomcat webapps folder"
-    cp $PROJECT_PATH/target/$INSTANCE_NAME.war $TOMCAT_PATH/webapps/$INSTANCE_NAME.war
+    cp $PROJECT_PATH/target/opensilex-ws-$INSTANCE_VERSION.war $TOMCAT_PATH/webapps/$INSTANCE_NAME.war
     if [ $? -ne 0 ]
     then
         echo "Error during war file copy, exiting..."
@@ -159,7 +161,7 @@ function reloadAppWithManager() {
 # Main script
 ###############################################################################
 
-init
+initPath
 
 loadConfig
 

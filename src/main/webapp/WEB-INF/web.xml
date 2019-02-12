@@ -15,7 +15,7 @@
 
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>opensilex.core.Application</param-value>
+            <param-value>org.opensilex.core.Application</param-value>
         </init-param>
     </servlet>
 </web-app>

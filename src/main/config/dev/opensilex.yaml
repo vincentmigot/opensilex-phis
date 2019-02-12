@@ -2,12 +2,21 @@ opensilex-core:
     debug: true
     host: localhost
     port: 8080
-    basePath: /opensilex-ws-1.0.0-SNAPSHOT/rest
+    basePath: /opensilex-phis/rest
     initPackages:
         - phis2ws.service.json
         - phis2ws.service.resources.request.filters
     servicePackages:
-        - opensilex.core.services
+        - org.opensilex.core.api.sample
         - phis2ws.service.resources
-    
+
+opensilex-core-rdf4j:
+    host: localhost
+    port: 8080
+    repository: repository
+        
+opensilex-core-mongo:
+    host: localhost
+    port: 27017
+    database: database
     
