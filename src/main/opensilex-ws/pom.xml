@@ -46,6 +46,23 @@
             <testResource>
                 <directory>../../test/resources</directory>
             </testResource>
-        </testResources>    
+        </testResources>  
+        <plugins>
+            <!-- Disable OpenSilex modules links generation -->
+            <plugin>
+                <groupId>eu.somatik.serviceloader-maven-plugin</groupId>
+                <artifactId>serviceloader-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>  
+        </plugins>
     </build>
+    
 </project>
