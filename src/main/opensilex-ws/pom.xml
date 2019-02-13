@@ -8,6 +8,10 @@
     <version>${revision}</version>
     <name>opensilex-ws</name>
 
+    <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+    </properties>
+    
     <parent>
         <groupId>org.opensilex</groupId>
         <artifactId>opensilex-parent</artifactId>
@@ -19,7 +23,7 @@
         <dependency>
             <groupId>com.mycompany</groupId>
             <artifactId>phis2ws</artifactId>
-            <version>v0.1</version>
+            <version>${revision}</version>
             <type>war</type>
         </dependency>     
         <dependency>
