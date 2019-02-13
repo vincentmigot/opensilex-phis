@@ -21,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.mycompany</groupId>
+            <groupId>org.opensilex</groupId>
             <artifactId>phis2ws</artifactId>
             <version>${revision}</version>
             <type>war</type>
@@ -46,6 +46,6 @@
             <testResource>
                 <directory>../../test/resources</directory>
             </testResource>
-        </testResources>        
+        </testResources>    
     </build>
 </project>
