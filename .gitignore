@@ -1,3 +1,4 @@
 /target-parent/
 /target/
 *.flattened-pom.xml
+/opensilex-sunagri/target/

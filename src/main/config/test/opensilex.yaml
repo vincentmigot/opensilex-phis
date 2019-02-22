@@ -1,0 +1,30 @@
+opensilex-core:
+    basePath: <TO OVERRIDE FROM DEV>
+    logDirectory: <TO OVERRIDE FROM DEV>
+
+opensilex-core-rdf4j:
+    repository: <TO OVERRIDE FROM DEV>
+    
+opensilex-core-mongo:
+    database: <TO OVERRIDE FROM DEV>
+
+phis-ws-pg:
+    database: <TO OVERRIDE FROM DEV>
+    username: <TO OVERRIDE FROM DEV>
+    password: <TO OVERRIDE FROM DEV>  
+    
+## Legacy service
+phis-ws-service:
+    infrastructure: <TO OVERRIDE FROM DEV>
+    
+    uploadFileServerUsername: <TO OVERRIDE FROM DEV>
+    uploadFileServerPassword: <TO OVERRIDE FROM DEV>
+    uploadFileServerDirectory: <TO OVERRIDE FROM DEV>
+    
+    layerFileServerDirectory: <TO OVERRIDE FROM DEV>
+    layerFileServerAddress: <TO OVERRIDE FROM DEV>
+    
+    uploadImageServerDirectory: <TO OVERRIDE FROM DEV>
+    imageFileServerDirectory: <TO OVERRIDE FROM DEV>
+    
+    webAppApiDocsName: <TO OVERRIDE FROM DEV>

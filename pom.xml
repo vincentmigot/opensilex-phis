@@ -15,13 +15,50 @@
         <revision>1.0.0-SNAPSHOT</revision>
     </properties>
     
+    <parent>
+        <groupId>org.opensilex</groupId>
+        <artifactId>opensilex-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>opensilex-parent/pom.xml</relativePath>
+    </parent>
+    
+     <!-- Configuration profiles -->
+    <profiles>
+        <!-- The configuration of the test profile extending dev -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.id>test</profile.id>
+                <profile.extension.id>dev</profile.extension.id>
+            </properties>
+        </profile>
+    </profiles>
+    
     <modules>
-        <module>phis-ws/phis2-ws</module>
+        <!-- Required modules -->
         <module>opensilex-parent</module> 
         <module>opensilex-core</module> 
-        <module>./src/main/opensilex-ws/pom.xml</module>
+        <module>./src/main/opensilex-ws</module>
+        <!-- Optional modules --> 
+        <module>phis-ws/phis2-ws</module>
     </modules>
 
+    <dependencies>
+        <!-- Required dependency -->
+        <dependency>
+            <groupId>org.opensilex</groupId>
+            <artifactId>opensilex-core</artifactId>
+            <version>${revision}</version>
+        </dependency>        
+        <!-- Optional dependency --> 
+        <dependency>
+            <groupId>org.opensilex</groupId>
+            <artifactId>phis2ws</artifactId>
+            <version>${revision}</version>
+            <type>war</type>
+        </dependency>    
+    </dependencies>
+    
     <build>
         <directory>${project.basedir}/target-parent</directory>
     </build>

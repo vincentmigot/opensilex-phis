@@ -66,14 +66,16 @@ function loadConfig() {
         requireVariable "TOMCAT_PATH"
 
         # Display loaded variables
-        echo "Instance name           = " ${INSTANCE_NAME}
-        echo "Instance version        = " ${INSTANCE_VERSION}
-        echo "Maven bin path          = " ${MAVEN_BIN}
-        echo "JDK path                = " ${JDK}
-        echo "Tomcat base path        = " ${TOMCAT_PATH}
-        echo "Tomcat manager base uri = " ${TOMCAT_MANAGER_BASE_URI}
-        echo "Tomcat manager account  = " ${TOMCAT_MANAGER_ACCOUNT}
-        echo "Tomcat manager password = " ${TOMCAT_MANAGER_PASS}
+        echo "Instance name             = " ${INSTANCE_NAME}
+        echo "Instance version          = " ${INSTANCE_VERSION}
+        echo "Maven bin path            = " ${MAVEN_BIN}
+        echo "JDK path                  = " ${JDK}
+        echo "Tomcat base path          = " ${TOMCAT_PATH}
+        echo "Tomcat hard reboot flag   = " ${TOMCAT_HARD_REBOOT}
+        echo "Tomcat manager server uri = " ${TOMCAT_MANAGER_SERVER_URI}
+        echo "Tomcat manager base uri   = " ${TOMCAT_MANAGER_BASE_URI}
+        echo "Tomcat manager account    = " ${TOMCAT_MANAGER_ACCOUNT}
+        echo "Tomcat manager password   = " ${TOMCAT_MANAGER_PASS}
 
     else
       echo "$CONFIG_FILE not found."
@@ -114,30 +116,38 @@ function startTomcat() {
 }
 
 ###############################################################################
-# Function to stop tomcat, eventually by force after 30s
+# Function to stop tomcat, eventually by force after 30s or directly if forced by flag
 function stopTomcat() {
     # Get tomcat PID
-    echo "Error while reloading dynamically app, restarting tomcat..."
+    
     TOMCAT_PID=$(ps -ef | grep tomcat | grep java | awk ' { print $2 } ')
-    WAITING_TIME=30
-    ELAPSED_TIME=0
-    SLEEP_TIME=5
 
-    # Shutdown tomcat
-    JAVA_HOME=$JDK $TOMCAT_PATH/bin/shutdown.sh
-
-    # While PID exist wait 5 more seconds until 30 seconds max
-    until [ `ps -p $TOMCAT_PID | grep -c $TOMCAT_PID` = '0' ] || [ $ELAPSED_TIME -gt $WAITING_TIME ]
-    do
-        echo "Waiting for processes to exit. Timeout before we kill the pid ${TOMCAT_PID}: ${ELAPSED_TIME}/${WAITING_TIME}"
-        sleep $SLEEP_TIME
-        let ELAPSED_TIME=$ELAPSED_TIME+$SLEEP_TIME;
-    done
-
-    # If maximum time is reached kill tomcat process
-    if [ $ELAPSED_TIME -gt $WAITING_TIME ]; then
-        echo "Killing processes which didn't stop after $WAITING_TIME seconds"
+    if [ $TOMCAT_HARD_REBOOT ]
+    then
+        echo "Kill Tomcat process"
         kill -9 $TOMCAT_PID
+    else
+        echo "Error while reloading dynamically app, restarting tomcat..."
+        WAITING_TIME=30
+        ELAPSED_TIME=0
+        SLEEP_TIME=5
+
+        # Shutdown tomcat
+        JAVA_HOME=$JDK $TOMCAT_PATH/bin/shutdown.sh
+
+        # While PID exist wait 5 more seconds until 30 seconds max
+        until [ `ps -p $TOMCAT_PID | grep -c $TOMCAT_PID` = '0' ] || [ $ELAPSED_TIME -gt $WAITING_TIME ]
+        do
+            echo "Waiting for processes to exit. Timeout before we kill the pid ${TOMCAT_PID}: ${ELAPSED_TIME}/${WAITING_TIME}"
+            sleep $SLEEP_TIME
+            let ELAPSED_TIME=$ELAPSED_TIME+$SLEEP_TIME;
+        done
+
+        # If maximum time is reached kill tomcat process
+        if [ $ELAPSED_TIME -gt $WAITING_TIME ]; then
+            echo "Killing processes which didn't stop after $WAITING_TIME seconds"
+            kill -9 $TOMCAT_PID
+        fi
     fi
 }
 
@@ -145,14 +155,14 @@ function stopTomcat() {
 # Check if tomcat is running (define TOMCAT_UP variable)
 function checkTomcatUp() {
     # Check if tomcat is alive
-    TOMCAT_UP=$(curl -Is http://127.0.0.1:8080 | head -n 1)
+    TOMCAT_UP=$(curl -Is $TOMCAT_MANAGER_SERVER_URI | head -n 1)
 }
 
 ###############################################################################
 # Reload tomcat with Manager  text API (define TOMCAT_RESPONSE variable)
 function reloadAppWithManager() {
     echo "Tomcat Manager URI is defined, try to reload app via text API"
-    CURL_CMD="curl -s -w %{http_code} -u $TOMCAT_MANAGER_ACCOUNT:$TOMCAT_MANAGER_PASS $TOMCAT_MANAGER_BASE_URI/text/reload?path=/$INSTANCE_NAME"
+    CURL_CMD="curl -s -w %{http_code} -u $TOMCAT_MANAGER_ACCOUNT:$TOMCAT_MANAGER_PASS $TOMCAT_MANAGER_SERVER_URI/$TOMCAT_MANAGER_BASE_URI/text/reload?path=/$INSTANCE_NAME"
     echo $CURL_CMD
     TOMCAT_RESPONSE=$($CURL_CMD)
 }
@@ -169,6 +179,9 @@ buildMaven
 
 copyWar
 
+echo "Clear logs"
+echo > $TOMCAT_PATH/logs/catalina.out
+
 checkTomcatUp
 
 if [ "$TOMCAT_UP" ]
@@ -176,13 +189,13 @@ then
     echo "Tomcat up - reloading app"
 
     # Check if Tomcat Manager URI is defined
-    if [[ ! -z $TOMCAT_MANAGER_BASE_URI ]]
+    if [[ -z $TOMCAT_MANAGER_SERVER_URI ]] && [ ! $TOMCAT_HARD_REBOOT ]
     then
         # Reload app with tomcat manager text API
         reloadAppWithManager
         RESULT=$TOMCAT_RESPONSE
     else
-        RESULT="KO - Tomcat Manager not configured, restart Tomcat"
+        RESULT="KO - Tomcat Manager not configured, restart Tomcat by killing process"
     fi
 
     echo $RESULT

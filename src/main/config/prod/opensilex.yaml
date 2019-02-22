@@ -1,0 +1,34 @@
+logger:
+    directory: <TO DEFINE>
+    level: INFO
+    traceRequest: false
+    
+opensilex-core:
+    basePath: <TO DEFINE>
+
+opensilex-core-rdf4j:
+    repository: <TO DEFINE>
+    
+opensilex-core-mongo:
+    database: <TO DEFINE>
+
+phis-ws-pg:
+    database: <TO DEFINE>
+    username: <TO DEFINE>
+    password: <TO DEFINE>  
+    
+## Legacy service
+phis-ws-service:
+    infrastructure: <TO DEFINE>
+    
+    uploadFileServerUsername: <TO DEFINE>
+    uploadFileServerPassword: <TO DEFINE>
+    uploadFileServerDirectory: <TO DEFINE>
+    
+    layerFileServerDirectory: <TO DEFINE>
+    layerFileServerAddress: <TO DEFINE>
+    
+    uploadImageServerDirectory: <TO DEFINE>
+    imageFileServerDirectory: <TO DEFINE>
+    
+    webAppApiDocsName: <TO DEFINE>
