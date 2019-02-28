@@ -3,9 +3,6 @@ logger:
     level: INFO
     traceRequest: false
     
-opensilex-core:
-    basePath: <TO DEFINE>
-
 opensilex-core-rdf4j:
     repository: <TO DEFINE>
     
@@ -30,5 +27,3 @@ phis-ws-service:
     
     uploadImageServerDirectory: <TO DEFINE>
     imageFileServerDirectory: <TO DEFINE>
-    
-    webAppApiDocsName: <TO DEFINE>

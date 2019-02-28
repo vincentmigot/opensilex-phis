@@ -26,5 +26,3 @@ phis-ws-service:
     
     uploadImageServerDirectory: <TO OVERRIDE FROM DEV>
     imageFileServerDirectory: <TO OVERRIDE FROM DEV>
-    
-    webAppApiDocsName: <TO OVERRIDE FROM DEV>

@@ -1,34 +1,29 @@
 logger:
-    directory: /home/vincent/logs/modularity
+    directory: <TO DEFINE>
     level: DEBUG
     traceRequest: true
     
-opensilex-core:
-    basePath: /opensilex-phis
-
 opensilex-core-rdf4j:
-    repository: diaphen
+    repository: <TO DEFINE>
     
 opensilex-core-mongo:
-    database: diaphen
+    database: <TO DEFINE>
 
 phis-ws-pg:
-    database: diaphen
-    username: phis
-    password: azerty
+    database: <TO DEFINE>
+    username: <TO DEFINE>
+    password: <TO DEFINE>
     
 ## Legacy service
 phis-ws-service:
-    infrastructure: diaphen
+    infrastructure: <TO DEFINE>
     
-    uploadFileServerUsername: vincent
-    uploadFileServerPassword: pic3.14
-    uploadFileServerDirectory: /home/phis2ws/documents/instance
+    uploadFileServerUsername: <TO DEFINE>
+    uploadFileServerPassword: <TO DEFINE>
+    uploadFileServerDirectory: <TO DEFINE>
     
-    layerFileServerDirectory: /var/www/html/layers
-    layerFileServerAddress: http://localhost/layers
+    layerFileServerDirectory: <TO DEFINE>
+    layerFileServerAddress: <TO DEFINE>
     
-    uploadImageServerDirectory: /var/www/html/images
-    imageFileServerDirectory: http://localhost/images
-    
-    webAppApiDocsName: opensilex-phis
+    uploadImageServerDirectory: <TO DEFINE>
+    imageFileServerDirectory: <TO DEFINE>

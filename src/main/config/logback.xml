@@ -6,6 +6,9 @@
     
     <!-- output -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${logger.level}</level>
+        </filter>
         <encoder>
             <pattern>${logPattern}</pattern>
         </encoder>

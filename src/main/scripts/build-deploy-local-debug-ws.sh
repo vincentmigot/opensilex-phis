@@ -59,18 +59,18 @@ function loadConfig() {
             fi
         }
 
-        requireVariable "INSTANCE_NAME"
-        requireVariable "INSTANCE_VERSION"
+        requireVariable "TOMCAT_DEPLOYEMENT_PATH"
+        requireVariable "BUILD_VERSION"
         requireVariable "MAVEN_BIN"
-        requireVariable "JDK"
+        requireVariable "JAVA_HOME"
         requireVariable "TOMCAT_PATH"
 
         # Display loaded variables
-        echo "Instance name             = " ${INSTANCE_NAME}
-        echo "Instance version          = " ${INSTANCE_VERSION}
+        echo "Build version             = " ${BUILD_VERSION}
         echo "Maven bin path            = " ${MAVEN_BIN}
-        echo "JDK path                  = " ${JDK}
+        echo "Java home                 = " ${JAVA_HOME}
         echo "Tomcat base path          = " ${TOMCAT_PATH}
+        echo "Tomcat deployement path   = " ${TOMCAT_DEPLOYEMENT_PATH}
         echo "Tomcat hard reboot flag   = " ${TOMCAT_HARD_REBOOT}
         echo "Tomcat manager server uri = " ${TOMCAT_MANAGER_SERVER_URI}
         echo "Tomcat manager base uri   = " ${TOMCAT_MANAGER_BASE_URI}
@@ -87,7 +87,7 @@ function loadConfig() {
 # Function to run maven build
 function buildMaven() {
     # Run maven clean install
-    JAVA_HOME=$JDK $MAVEN_BIN clean install -Dopensilex.instance=$INSTANCE_NAME -Drevision=$INSTANCE_VERSION
+    JAVA_HOME=$JAVA_HOME $MAVEN_BIN clean install -Drevision=$BUILD_VERSION
     # Exit if maven clean install failed
     if [[ "$?" -ne 0 ]] ; then
         echo 'Error while building project, exiting...'
@@ -99,7 +99,7 @@ function buildMaven() {
 # Function to copy builded war to Tomcat directory
 function copyWar() {
     echo "Copy war file from project target folder to tomcat webapps folder"
-    cp $PROJECT_PATH/target/opensilex-ws-$INSTANCE_VERSION.war $TOMCAT_PATH/webapps/$INSTANCE_NAME.war
+    cp $PROJECT_PATH/target/opensilex-ws-$BUILD_VERSION.war $TOMCAT_PATH/webapps/$TOMCAT_DEPLOYEMENT_PATH.war
     if [ $? -ne 0 ]
     then
         echo "Error during war file copy, exiting..."
@@ -112,7 +112,7 @@ function copyWar() {
 ###############################################################################
 # Function to start tomcat with debug options
 function startTomcat() {
-    JAVA_HOME=$JDK JPDA_OPTS=$JPDA_OPTS $TOMCAT_PATH/bin/catalina.sh jpda start
+    JAVA_HOME=$JAVA_HOME JPDA_OPTS=$JPDA_OPTS $TOMCAT_PATH/bin/catalina.sh jpda start
 }
 
 ###############################################################################
@@ -133,7 +133,7 @@ function stopTomcat() {
         SLEEP_TIME=5
 
         # Shutdown tomcat
-        JAVA_HOME=$JDK $TOMCAT_PATH/bin/shutdown.sh
+        JAVA_HOME=$JAVA_HOME $TOMCAT_PATH/bin/shutdown.sh
 
         # While PID exist wait 5 more seconds until 30 seconds max
         until [ `ps -p $TOMCAT_PID | grep -c $TOMCAT_PID` = '0' ] || [ $ELAPSED_TIME -gt $WAITING_TIME ]
@@ -162,7 +162,7 @@ function checkTomcatUp() {
 # Reload tomcat with Manager  text API (define TOMCAT_RESPONSE variable)
 function reloadAppWithManager() {
     echo "Tomcat Manager URI is defined, try to reload app via text API"
-    CURL_CMD="curl -s -w %{http_code} -u $TOMCAT_MANAGER_ACCOUNT:$TOMCAT_MANAGER_PASS $TOMCAT_MANAGER_SERVER_URI/$TOMCAT_MANAGER_BASE_URI/text/reload?path=/$INSTANCE_NAME"
+    CURL_CMD="curl -s -w %{http_code} -u $TOMCAT_MANAGER_ACCOUNT:$TOMCAT_MANAGER_PASS $TOMCAT_MANAGER_SERVER_URI/$TOMCAT_MANAGER_BASE_URI/text/reload?path=/$TOMCAT_DEPLOYEMENT_PATH"
     echo $CURL_CMD
     TOMCAT_RESPONSE=$($CURL_CMD)
 }
