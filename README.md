@@ -1,4 +1,5 @@
-# OpenSILEX - Phenotyping Hybrid Information System (PHIS)
+# OpenSILEX
+# Phenotyping Hybrid Information System (PHIS)
 
 ## Introduction
 
