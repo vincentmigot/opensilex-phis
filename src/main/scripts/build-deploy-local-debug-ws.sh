@@ -189,7 +189,7 @@ then
     echo "Tomcat up - reloading app"
 
     # Check if Tomcat Manager URI is defined
-    if [[ -z $TOMCAT_MANAGER_SERVER_URI ]] && [ ! $TOMCAT_HARD_REBOOT ]
+    if [ "$TOMCAT_MANAGER_SERVER_URI" != "" ] && [ "$TOMCAT_HARD_REBOOT" != "true" ]
     then
         # Reload app with tomcat manager text API
         reloadAppWithManager
