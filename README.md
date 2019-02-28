@@ -37,53 +37,53 @@ Edit src/main/config/dev/opensilex.yaml file with your favorite text editor and 
 
 logger:
 >    directory: *Path to logs file*
-
+>
 >    level: DEBUG
-
+>
 >    traceRequest: true
 
 opensilex-core-rdf4j:
 >    repository: *RDF4J repository name*
-
+>
 >    host: *Optional: default value to localhost*
-
+>
 >    port: *Optional: default value to 8080*
-
+>
 >    path: *Optional: rdf4j-server*
 
 opensilex-core-mongo:
 >    database: *MongoDb database name*
-
+>
 >    host: *Optional: default value to localhost*
-
+>
 >    port: *Optional: default value to 27017*  
 
 phis-ws-pg:
 >    database: *PostgreSQL database name*
-
+>
 >    username: *PostgreSQL user name*
-
+>
 >    password: *PostgreSQL user password*
-
+>
 >    host: *Optional: default value to localhost*
-
+>
 >    port: *Optional: default value to 5432*
 
 phis-ws-service:
 >    infrastructure: *Custom ontology suffix for generated uri*
-
+>
 >    uploadFileServerUsername: *Linux user name*
-
+>
 >    uploadFileServerPassword: *Linux user password*
-
+>
 >    uploadFileServerDirectory: *Path to file storage directory*
-
+>
 >    layerFileServerDirectory: *Path to layers storage directory*
-
+>
 >    layerFileServerAddress: *Uri to get layers*
-
+>
 >    uploadImageServerDirectory: *Path to image storage directory*
-
+>
 >    imageFileServerDirectory: *Uri to image storage directory*
 
 ### Build war file
