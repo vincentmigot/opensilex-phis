@@ -22,7 +22,7 @@
         <relativePath>opensilex-parent/pom.xml</relativePath>
     </parent>
     
-     <!-- Configuration profiles -->
+    <!-- Configuration profiles -->
     <profiles>
         <!-- The configuration of the test profile extending dev -->
         <profile>
