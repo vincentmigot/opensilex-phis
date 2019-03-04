@@ -18,6 +18,8 @@ phis-ws-pg:
 phis-ws-service:
     infrastructure: <TO DEFINE>
     
+    uploadFileServerIP: <TO DEFINE>
+    
     uploadFileServerUsername: <TO DEFINE>
     uploadFileServerPassword: <TO DEFINE>
     uploadFileServerDirectory: <TO DEFINE>
